@@ -1,0 +1,30 @@
+
+<div class="card w-75 mx-auto mb-4">
+  <div class="card-header">$text.get("edit.location")</div>
+    <div class="card-body">
+      <form method="post" name="locationForm" action="$link.setAction("/admin/saveLocation")">
+        <input type="hidden" name="id" value="$!locationForm.id" />
+        <div class="form-row justify-content-start">
+          <div class="form-group col-md-6">
+            <label for="name">$text.get("location.name")</label>
+            <input class="form-control mb-2" type="text" id="name" name="name" placeholder="$text.get("location.nameEn")" #escapeInputValue( $!locationForm.name ) />
+            <input class="form-control" type="text" name="nameJA" placeholder="$text.get("location.nameJa")" #escapeInputValue( $!locationForm.nameJA ) />
+          </div>
+        </div>
+        <div class="form-group mb-2">
+          <label for="address">$text.get("location.address")</label>
+          <textarea class="form-control mb-2" id="address" name="address" placeholder="$text.get("location.addressEn")">$!esc.html( $!locationForm.address )</textarea>
+          <textarea class="form-control" name="addressJA" placeholder="$text.get("location.addressJa")">$!esc.html( $!locationForm.addressJA )</textarea>
+        </div>
+        <br/>
+        <div class="form-row justify-content-end">
+          <div class="form-group col-md-3">
+            <input class="btn btn-outline-primary btn-block btn-lg" type="submit" name="save" value="$text.get("save")" />
+          </div>
+          <div class="form-group col-md-3">
+            <input class="btn btn-outline-danger btn-block btn-lg" type="submit" name="$form.cancelName" value="$text.get("cancel")" />
+          </div>
+        </div>
+      </form>
+    </div>
+</div>

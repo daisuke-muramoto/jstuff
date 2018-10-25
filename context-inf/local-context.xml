@@ -1,0 +1,29 @@
+<!DOCTYPE context>
+<Context displayName="jstuff"
+path="/jstuff"
+reloadable="true"
+docBase="/home/dai/workspace1/jstuff"
+workDir="/home/dai/workspace1/jstuff/work">
+
+<!-- For jstuff project-->
+<Realm className="org.apache.catalina.realm.JDBCRealm"
+driverName="com.mysql.jdbc.Driver"
+connectionURL="jdbc:mysql://localhost:3306/jstuffDB"
+connectionName="dai" connectionPassword="1pVmBqE4Uat2" digest="md5"
+userTable="UserRoleTomcat" userNameCol="userName" userCredCol="password"
+userRoleTable="UserRoleTomcat" roleNameCol="roleName"/>
+
+<Resource name="jdbc/jstuffDB" auth="Container"
+     type="javax.sql.DataSource"
+     driverClassName="com.mysql.jdbc.Driver"
+     url="jdbc:mysql://localhost:3306/jstuffDB?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=UTF-8&amp;useSSL=false"
+     username="dai"
+     password="1pVmBqE4Uat2"
+     logAbandoned="true"
+     removeAbandoned="true"
+     maxWait="10000"
+     removeAbandonedTimeout="60"
+     maxActive="20"
+     maxIdle="10" />
+
+</Context>

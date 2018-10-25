@@ -1,0 +1,44 @@
+<!DOCTYPE project>
+<project name="tiger-jstuff" default="list" basedir=".">
+
+	<!-- Configure the context PATH for this application -->
+	<property file="${basedir}/WEB-INF/src/resources/tiger.build.properties" />
+
+	<!-- tiger server tomcat tasks -->
+	<!-- task definitions -->
+	<taskdef name="start" classname="org.apache.catalina.ant.StartTask" />
+	<taskdef name="stop" classname="org.apache.catalina.ant.StopTask" />
+	<taskdef name="reload" classname="org.apache.catalina.ant.ReloadTask" />
+
+	<!-- stop -->
+	<target name="stop">
+		<stop url="http://${web.server}/manager" username="${web.server.user}" password="${web.server.pass}" path="${web.app.path}" />
+	</target>
+
+	<!-- start -->
+	<target name="start">
+		<start url="http://${web.server}/manager" username="${web.server.user}" password="${web.server.pass}" path="${web.app.path}" />
+	</target>
+
+	<!-- reload -->
+	<target name="reload">
+		<reload url="http://${web.server}/manager" username="${web.server.user}" password="${web.server.pass}" path="${web.app.path}" />
+	</target>
+
+	<!-- list -->
+	<target name="list">
+		<sshexec host="${web.server}" username="${web.server.user}" password="${web.server.pass}" command="ls -lht ${jetty.webapps}/" trust="true" />
+	</target>
+
+	<!-- deploy -->
+	<target name="deploy">
+		<scp file="${tiger.warapp.directory}/${project.distname}.war" remoteTofile="${web.server.user}:${web.server.pass}@${web.server}:${jetty.webapps}${web.app.path}.war" trust="true" />
+		<sshexec host="${web.server}" username="${web.server.user}" password="${web.server.pass}" command="${jetty.bin}/deploy.sh ${webapp.name}" trust="true" />
+	</target>
+
+	<!-- undeploy -->
+	<target name="undeploy">
+		<sshexec host="${web.server}" username="${web.server.user}" password="${web.server.pass}" command="${jetty.bin}/undeploy.sh ${webapp.name}" trust="true" />
+	</target>
+
+</project>

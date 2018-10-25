@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width" />
+<title>Login</title>
+<link rel="stylesheet" href="$request.contextPath/css/style.css" type="text/css" />
+</head>
+<body>
+#actionMessages()
+<h5>jstuff login</h5>
+<form method="post" action="j_security_check">
+  <table id="loginTable">
+    <tr>
+      <th class="left">$text.get("login.user")</th>
+      <td>
+        <input class="login" type="text" name="j_username" autocapitalize="off" autocorrect="off" autofocus="autofocus" />
+      </td>
+    </tr>
+    <tr>
+      <th class="left">$text.get("login.pass")</th>
+      <td>
+        <input class="login" type="password" name="j_password" />
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2" class="center">
+        <input class="submit" type="submit" name="j_security_check" value="$text.get("login.login")" />
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2"></td>
+    </tr>
+    <tr>
+      <td colspan="2" class="right">
+        #switchLanguage( "login.switchLanguage" )
+      </td>
+    </tr>
+  </table>
+</form>
+</body>
+</html>

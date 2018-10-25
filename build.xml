@@ -1,0 +1,177 @@
+<!DOCTYPE project>
+<project name="base-jstuff" default="build" basedir=".">
+
+	<!-- Configure the context PATH for this application -->
+	<property file="${basedir}/WEB-INF/src/resources/build.properties" />
+
+	<path id="classpath">
+		<fileset dir="${tomcat.home}/lib" includes="*.jar" />
+		<fileset dir="${basedir}/WEB-INF/lib" includes="*.jar" />
+		<fileset dir="${junit.home}" includes="junit.jar" />
+	</path>
+
+	<!-- prepare.build task -->
+	<target name="clean" description="Destroys all generated files and dirs.">
+		<echo>"clearing out main, tiger, build and backup: ${build.home}/${webapp.name}"</echo>
+		<delete dir="${build.home}/${webapp.name}" />
+	</target>
+
+	<!-- Delete any old backups from our local filesystem -->
+	<target name="build.prepare" depends="clean" description="Creates new directories for main server, tiger server and general build">
+
+		<mkdir dir="${main.build.directory}" />
+		<mkdir dir="${main.build.directory}/WEB-INF" />
+		<mkdir dir="${main.build.directory}/WEB-INF/classes" />
+		<mkdir dir="${main.warapp.directory}" />
+
+		<mkdir dir="${tiger.build.directory}" />
+		<mkdir dir="${tiger.build.directory}/WEB-INF" />
+		<mkdir dir="${tiger.build.directory}/WEB-INF/classes" />
+		<mkdir dir="${tiger.warapp.directory}" />
+
+		<mkdir dir="${general.build.directory}" />
+		<mkdir dir="${general.build.directory}/WEB-INF" />
+		<mkdir dir="${general.build.directory}/WEB-INF/classes" />
+
+	</target>
+
+	<!-- build task -->
+	<target name="build" depends="build.prepare, version.info, build.context" description="Compile app Java files and copy HTML and vel pages">
+		<antcall target="build.compile" />
+	</target>
+
+	<!-- general build -->
+	<target name="build.compile">
+
+		<echo>"setting destdir to ${general.build.directory}"</echo>
+		<javac srcdir="WEB-INF/src" destdir="${general.build.directory}/WEB-INF/classes">
+			<include name="**/*.java" />
+			<exclude name="test/**" />
+			<classpath refid="classpath" />
+			<compilerarg line="-encoding UTF-8" />
+		</javac>
+
+		<copy todir="${general.build.directory}" includeEmptyDirs="no">
+			<fileset dir="${basedir}">
+				<exclude name="**/*.java" />
+				<exclude name="**/*build.properties" />
+				<exclude name="**/*.sql" />
+				<exclude name="work/**" />
+				<exclude name="**/context.xml" />
+				<exclude name="context-inf/**" />
+				<exclude name="*build.xml" />
+				<exclude name="**/*log4j.properties" />
+				<exclude name="data/**" />
+				<exclude name="database/**" />
+				<exclude name="**/test/**" />
+				<exclude name="**/*mail.properties" />
+				<exclude name="**/*jndi_unit_test_helper.properties" />
+				<exclude name="**/*jetty-realm.properties" />
+			</fileset>
+		</copy>
+
+		<!-- copy everything in the general directory to the main and tiger directories -->
+		<copy todir="${main.build.directory}" includeEmptyDirs="no">
+			<fileset dir="${general.build.directory}" />
+		</copy>
+
+		<copy todir="${tiger.build.directory}" includeEmptyDirs="no">
+			<fileset dir="${general.build.directory}" />
+		</copy>
+
+		<antcall target="build.log.settings" />
+
+		<antcall target="realm.settings" />
+
+		<echo>"Set main webapp name"</echo>
+		<replaceregexp file="${main.build.directory}/version/version.vm" match="${webapp.name}" replace="${webapp.name.main}" byline="true" />
+
+		<war basedir="${main.build.directory}" warfile="${main.warapp.directory}/${project.distname}.war" webxml="${main.build.directory}/WEB-INF/web.xml">
+			<exclude name="${project.distname}.war" />
+			<exclude name="WEB-INF/web.xml" />
+		</war>
+
+		<war basedir="${tiger.build.directory}" warfile="${tiger.warapp.directory}/${project.distname}.war" webxml="${tiger.build.directory}/WEB-INF/web.xml">
+			<exclude name="${project.distname}.war" />
+			<exclude name="WEB-INF/web.xml" />
+		</war>
+
+	</target>
+
+	<!-- this target will automatically create an html file with an incremented build number and version number -->
+	<target name="version.info" depends="build.prepare">
+		<!-- remove the dates from the original file -->
+		<replace file="version.properties" token="build@@@" value="wombat" />
+
+		<propertyfile file="version.properties" comment="Build version info">
+			<entry key="minor.build.num" default="0" type="int" operation="+" value="1" pattern="00" />
+		</propertyfile>
+
+		<echo>"Set build number to : ${basedir}"</echo>
+
+		<copy file="${basedir}/version/version.vm" tofile="${general.build.directory}/version/version.vm" overwrite="true" />
+
+		<!-- setup GMT and JST timestamps -->
+		<tstamp>
+			<format property="TODAY_JST" pattern="dd/MM/yyyy hh:mm aa" timezone="JST" locale="en" />
+			<format property="TODAY_GMT" pattern="dd/MM/yyyy hh:mm aa" timezone="GMT" locale="en" />
+		</tstamp>
+
+		<replace file="${general.build.directory}/version/version.vm" value="value not found in version.properties" propertyFile="version.properties">
+			<replacefilter token="@webappName@" value="${webapp.name}" />
+			<replacefilter token="@buildDateGMT@" value="${TODAY_GMT}" />
+			<replacefilter token="@buildDateJST@" value="${TODAY_JST}" />
+
+			<replacefilter token="@version@" value="${version}" />
+			<replacefilter token="@build.user@" value="${user.name}" />
+			<replacefilter token="@build.java.version@" value="${java.version}" />
+			<replacefilter token="@minor.build.num@" property="minor.build.num" />
+		</replace>
+
+		<property file="version.properties" />
+		<echo>"Set build number to : ${minor.build.num}"</echo>
+	</target>
+
+	<target name="build.context" description="copies context file over for the main and tiger servers">
+		<copy file="${basedir}/context-inf/main-context.xml" tofile="${main.build.directory}/META-INF/context.xml" overwrite="true" />
+		<copy file="${basedir}/context-inf/tiger-context.xml" tofile="${tiger.build.directory}/META-INF/context.xml" overwrite="true" />
+	</target>
+
+	<!-- log conversion tasks -->
+	<target name="build.log.settings" description="Changes log file locations for main and tiger servers">
+		<echo>"Setting up log4j.properties for main deploy"</echo>
+		<copy file="${basedir}/WEB-INF/src/main-log4j.properties" tofile="${main.build.directory}/WEB-INF/classes/log4j.properties" overwrite="true" />
+		<echo>"Setting up log4j.properties for tiger deploy"</echo>
+		<copy file="${basedir}/WEB-INF/src/tiger-log4j.properties" tofile="${tiger.build.directory}/WEB-INF/classes/log4j.properties" overwrite="true" />
+
+		<echo>"in build log setting target! : main build dir is : ${main.build.directory}"</echo>
+	</target>
+
+	<target name="realm.settings" description="enable realm">
+		<echo>"Set realm"</echo>
+		<replaceregexp file="${main.build.directory}/WEB-INF/web.xml" match="&lt;!--.*(&lt;realm-name&gt;.*&lt;/realm-name&gt;).*--&gt;" replace="\1" />
+		<copy file="${basedir}/WEB-INF/src/jetty-realm.properties" tofile="${main.build.directory}/META-INF/realm.properties" />
+		<replaceregexp file="${tiger.build.directory}/WEB-INF/web.xml" match="&lt;!--.*(&lt;realm-name&gt;.*&lt;/realm-name&gt;).*--&gt;" replace="\1" />
+		<copy file="${basedir}/WEB-INF/src/jetty-realm.properties" tofile="${tiger.build.directory}/META-INF/realm.properties" />
+	</target>
+
+	<!-- view Catalina/localhost -->
+	<target name="view-context-dir">
+		<exec executable="ls">
+			<arg line="-l ${tomcat.home}/conf/Catalina/localhost" />
+		</exec>
+	</target>
+
+	<!-- copy context file to Catalina/localhost directory -->
+	<target name="local-context-add" description="add project context file">
+		<echo>"adding local context"</echo>
+		<copy file="${basedir}/context-inf/local-context.xml" tofile="${tomcat.home}/conf/Catalina/localhost/${webapp.name}.xml" overwrite="true" />
+	</target>
+
+	<!-- delete context file to Catalina/localhost directory -->
+	<target name="local-context-delete" description="delete project context file">
+		<echo>"deleting local context"</echo>
+		<delete file="${tomcat.home}/conf/Catalina/localhost/${webapp.name}.xml" />
+	</target>
+
+</project>

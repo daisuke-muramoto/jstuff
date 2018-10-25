@@ -1,0 +1,36 @@
+
+<h5 class="center">$text.get("admin.logs")</h5>
+
+<div class="table-responsive">
+<table class="sortable listTable table-bordered mt-auto mb-2 mx-auto">
+  <tr>
+    <th class="border-bottom">$text.get("log.company")</th>
+    <th class="border-bottom">$text.get("log.user")</th>
+    <th class="border-bottom">$text.get("log.dateTime")</th>
+    <th class="border-bottom">$text.get("log.IP")</th>
+    <th class="border-bottom">$text.get("log.category")</th>
+    <th class="border-bottom">$text.get("log.detail")</th>
+  </tr>
+  #foreach($log in $logList)
+    #if($velocityCount % 2 == 1)
+      #set($tdc = " class=${esc.q}list${esc.q}")
+      #set($tdc_center = " class=${esc.q}list text-center${esc.q}")
+    #else
+      #set($tdc = "")
+      #set($tdc_center = " class=${esc.q}text-center${esc.q}")
+    #end
+    <tr>
+      #if($lang.locale == "ja" || $lang.locale == "ja_JP")
+        <td$tdc>$!esc.html($!company.companyNameJA)</td>
+      #else
+        <td$tdc>$!esc.html($!company.companyName)</td>
+      #end
+      <td$tdc_center>$!esc.html($!log.userName)</td>
+      <td$tdc_center>$!esc.html($!log.dateTime)</td>
+      <td$tdc_center>$!esc.html($!log.ipAddress)</td>
+      <td$tdc_center>$!esc.html($!log.tableName)</td>
+      <td$tdc_center>$!esc.html($!log.details)</td>
+    </tr>
+  #end
+</table>
+</div>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE tools>
+<tools>
+
+	<toolbox scope="request" xhtml="true">
+		<tool class="com.solanasystems.utils.tool.LanguageTool" />
+		<tool class="org.apache.velocity.tools.struts.ActionMessagesTool" />
+		<tool class="org.apache.velocity.tools.struts.ErrorsTool" />
+		<tool class="org.apache.velocity.tools.struts.FormTool" />
+		<tool class="org.apache.velocity.tools.struts.MessageTool" />
+		<tool class="org.apache.velocity.tools.struts.StrutsLinkTool" />
+		<tool class="org.apache.velocity.tools.struts.TilesTool" />
+	</toolbox>
+
+	<toolbox scope="application">
+		<tool class="org.apache.velocity.tools.generic.DateTool" />
+		<tool class="org.apache.velocity.tools.generic.EscapeTool" />
+		<tool class="org.apache.velocity.tools.generic.MathTool" />
+		<tool class="org.apache.velocity.tools.generic.NumberTool" />
+	</toolbox>
+
+</tools>

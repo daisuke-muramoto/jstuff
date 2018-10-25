@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE Configure PUBLIC "-//Jetty//Configure//EN" "http://www.eclipse.org/jetty/configure.dtd">
+<Configure id='wac' class="org.mortbay.jetty.webapp.WebAppContext">
+	<Set name="configurationClasses">
+		<Array type="java.lang.String">
+			<Item>org.mortbay.jetty.webapp.WebInfConfiguration</Item>
+			<Item>org.mortbay.jetty.plus.webapp.EnvConfiguration</Item>
+			<Item>org.mortbay.jetty.plus.webapp.Configuration</Item>
+			<Item>org.mortbay.jetty.webapp.JettyWebXmlConfiguration</Item>
+			<Item>org.mortbay.jetty.webapp.TagLibConfiguration</Item>
+		</Array>
+	</Set>
+
+	<Set name="contextPath">/jstuff</Set>
+	<Set name="war"><SystemProperty name="jetty.home" default="." />/webapps/jstuff</Set>
+	<Set name="extractWAR">true</Set>
+	<Set name="copyWebDir">false</Set>
+
+	<New id="woggle" class="org.mortbay.jetty.plus.naming.EnvEntry">
+		<Arg><Property name='server' /></Arg>
+		<Arg>woggle</Arg>
+		<Arg type="java.lang.Integer">4000</Arg>
+		<Arg type="boolean">false</Arg>
+	</New>
+
+	<New id="jstuffDB" class="org.mortbay.jetty.plus.naming.Resource">
+		<Arg>jdbc/jstuffDB</Arg>
+		<Arg>
+			<New class="org.apache.commons.dbcp.BasicDataSource">
+				<Set name="driverClassName">com.mysql.jdbc.Driver</Set>
+				<Set name="url">jdbc:mysql://localhost:3306/jstuffDB?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=UTF-8</Set>
+				<Set name="username">jstuff</Set>
+				<Set name="password">bJgrz2ghLdUG5v</Set>
+				<Set name="removeAbandoned">true</Set>
+				<Set name="removeAbandonedTimeout">60</Set>
+				<Set name="logAbandoned">true</Set>
+				<Set name="maxActive">20</Set>
+				<Set name="maxIdle">10</Set>
+				<Set name="maxWait">10000</Set>
+			</New>
+		</Arg>
+	</New>
+
+	<Get name="securityHandler">
+		<Set name="userRealm">
+			<New class="org.mortbay.jetty.security.JDBCUserRealm">
+				<Set name="name">jstuffRealm</Set>
+				<Set name="config"><SystemProperty name="jetty.home" default="." />/etc/realms/jstuffRealm.properties</Set>
+			</New>
+		</Set>
+	</Get>
+</Configure>

@@ -1,0 +1,65 @@
+
+#set($actionUrl = $link.setAction("/admin/editCheckOut"))
+
+<h5 class="center">$text.get("admin.checkout")</h5>
+
+<div class="table-responsive">
+<table class="listTable table-bordered mt-auto mb-0 mx-auto" style="border-bottom-style: hidden;">
+  <tr>
+    <th class="left" colspan="8"><a href="$actionUrl?read=true">$text.get("addNew")</a></th>
+  </tr>
+</table>
+<table class="sortable listTable table-bordered mt-auto mb-2 mx-auto">
+  <tr>
+    <th class="border-bottom">$text.get("checkout.date")</th>
+    <th class="border-bottom">$text.get("checkout.client")</th>
+    <th class="border-bottom">$text.get("checkout.location")</th>
+    <th class="border-bottom">$text.get("item.name")</th>
+    <th class="border-bottom">$text.get("checkout.supplier")</th>
+    <th class="border-bottom">$text.get("checkout.quantity")</th>
+    <th class="border-bottom">$text.get("checkout.comment")</th>
+    <th class="border-bottom sorttable_nosort">$text.get("action")</th>
+  </tr>
+  #foreach($checkout in $checkOutList)
+    #if($velocityCount % 2 == 1)
+      #set($tdc = " class=${esc.q}list${esc.q}")
+      #set($tdc_center = " class=${esc.q}list text-center${esc.q}")
+      #set($tdc_text = " class=${esc.q}list${esc.q} style=${esc.q}white-space: pre !important;${esc.q}")
+      #set($tdca = " class=${esc.q}list actions${esc.q}")
+    #else
+      #set($tdc = "")
+      #set($tdc_center = " class=${esc.q}text-center${esc.q}")
+      #set($tdc_text = " style=${esc.q}white-space: pre !important;${esc.q}")
+      #set($tdca = " class=${esc.q}actions${esc.q}")
+    #end
+    #set($item = "$!esc.html($!checkout.itemName)")
+    #set($itemJA = "$!esc.html($!checkout.itemNameJA)")
+    <tr>
+      <td$tdc_center>$!esc.html($!checkout.date)</td>
+      #if($lang.locale == "ja" || $lang.locale == "ja_JP")
+        <td$tdc_center>$!esc.html($!checkout.clientNameJA)</td>
+        <td$tdc_center>$!esc.html($!checkout.locationNameJA)</td>
+        <td$tdc>$itemJA</td>
+        <td$tdc_center>$!esc.html($!checkout.supplierNameJA)</td>
+      #else
+        <td$tdc_center>$!esc.html($!checkout.clientName)</td>
+        <td$tdc_center>$!esc.html($!checkout.locationName)</td>
+        <td$tdc>$item</td>
+        <td$tdc_center>$!esc.html($!checkout.supplierName)</td>
+      #end
+      <td$tdc_center>$!esc.html($!checkout.quantity)</td>
+      <td$tdc_text>$!esc.html($!checkout.comment)</td>
+      <td$tdca>
+        <a href="$actionUrl?read=true&amp;id=$checkout.id">$text.get("update")</a>
+        #if($checkout.canDelete)
+          | <a href="$actionUrl?delete=true&amp;id=$checkout.id"
+            #if($lang.locale == "ja" || $lang.locale == "ja_JP") onclick="return confirm('$text.get("confirm.delete", [ $itemJA ])')"
+            #else onclick="return confirm('$text.get("confirm.delete", [ $item ])')"#end>
+            $text.get("delete")
+          </a>
+        #end
+      </td>
+    </tr>
+  #end
+</table>
+</div>

@@ -1,0 +1,30 @@
+
+<div class="card w-75 mx-auto mb-4">
+  <div class="card-header">$text.get("edit.category")</div>
+    <div class="card-body">
+      <form method="post" name="categoryForm" action="$link.setAction("/admin/saveCategory")">
+        <input type="hidden" name="id" value="$!categoryForm.id" />
+        <div class="form-row justify-content-start">
+          <div class="form-group col-md-6">
+            <label for="name">$text.get("category.name")</label>
+            <input class="form-control mb-2" type="text" id="name" name="name" placeholder="$text.get("category.nameEn")" #escapeInputValue( $!categoryForm.name ) />
+            <input class="form-control" type="text" name="nameJA" placeholder="$text.get("category.nameJa")" #escapeInputValue( $!categoryForm.nameJA ) />
+          </div>
+        </div>
+        <div class="form-group mb-2">
+          <label for="description">$text.get("category.description")</label>
+          <textarea class="form-control mb-2" id="description" name="description" placeholder="$text.get("category.descriptionEn")">$!esc.html($!categoryForm.description)</textarea>
+          <textarea class="form-control" name="descriptionJA" placeholder="$text.get("category.descriptionJa")">$!esc.html($!categoryForm.descriptionJA)</textarea>
+        </div>
+        <br/>
+        <div class="form-row justify-content-end">
+          <div class="form-group col-md-3">
+            <input class="btn btn-outline-primary btn-block btn-lg" type="submit" name="save" value="$text.get("save")" />
+          </div>
+          <div class="form-group col-md-3">
+            <input class="btn btn-outline-danger btn-block btn-lg" type="submit" name="$form.cancelName" value="$text.get("cancel")" />
+          </div>
+        </div>
+      </form>
+    </div>
+</div>

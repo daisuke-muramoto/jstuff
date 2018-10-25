@@ -1,0 +1,149 @@
+
+<div class="card w-75 mx-auto mb-4">
+  <div class="card-header">$text.get("edit.checkout")</div>
+    <div class="card-body">
+      <form method="post" name="checkOutForm" action="$link.setAction("/admin/saveCheckOut")">
+        <input type="hidden" name="id" value="$!checkOutForm.id" />
+        <input type="hidden" name="roleId" value= 2 />
+  	    <div class="form-row">
+  	      #if(($!checkOutForm.clientId != 0) || ($!checkOutForm.clientId == 0 && $!checkOutForm.quantity == 0))
+          <div class="form-group col-md-4">
+          #elseif($!checkOutForm.clientId == 0)
+          <div class="form-group col-md-6">
+          #end
+            <label for="checkOutDate">$text.get("checkout.date")</label>
+      	    <input class="form-control" id="checkOutDate" name="checkOutDate" type="date"#if((!$checkOutForm.checkOutDate) && ("$!checkOutForm.checkOutDate" == "")) value=$!checkOutForm.today#else #escapeInputValue($!checkOutForm.checkOutDate)#end />
+          </div>
+  	      #if(($!checkOutForm.clientId != 0) || ($!checkOutForm.clientId == 0 && $!checkOutForm.quantity == 0))
+          <div class="form-group col-md-4">
+            <label for="clientId">$text.get("checkout.client")</label>
+            #if($lang.locale == "ja" || $lang.locale == "ja_JP")
+              <select class="form-control mb-2" id="clientId" name="clientId">
+              #foreach($client in $clientList)
+                <option value="$client.id"#if($client.id == $!checkOutForm.clientId) selected="selected"#end>$!esc.html($!client.nameJA)</option>
+              #end
+              </select>
+              <select class="d-none" name="clientId">
+              #foreach($client in $clientList)
+                <option value="$client.id"#if($client.id == $!checkOutForm.clientId) selected="selected"#end>$!esc.html($!client.name)</option>
+              #end
+              </select>
+            #else
+              <select class="form-control mb-2" id="clientId" name="clientId">
+              #foreach($client in $clientList)
+                <option value="$client.id"#if($client.id == $!checkOutForm.clientId) selected="selected"#end>$!esc.html($!client.name)</option>
+              #end
+              </select>
+              <select class="d-none" name="clientId">
+              #foreach($client in $clientList)
+                <option value="$client.id"#if($client.id == $!checkOutForm.clientId) selected="selected"#end>$!esc.html($!client.nameJA)</option>
+              #end
+              </select>
+            #end
+          </div>
+          #end
+  	      #if(($!checkOutForm.clientId != 0) || ($!checkOutForm.clientId == 0 && $!checkOutForm.quantity == 0))
+          <div class="form-group col-md-4">
+          #elseif($!checkOutForm.clientId == 0)
+          <div class="form-group col-md-6">
+          #end
+            <label for="locationId">$text.get("checkout.location")</label>
+            #if($lang.locale == "ja" || $lang.locale == "ja_JP")
+              <select class="form-control mb-2" id="locationId" name="locationId">
+              #foreach($location in $locationList)
+                <option value="$location.id"#if($location.id == $!checkOutForm.locationId) selected="selected"#end>$!esc.html($!location.nameJA)</option>
+              #end
+              </select>
+              <select class="d-none" name="locationId">
+              #foreach($location in $locationList)
+                <option value="$location.id"#if($location.id == $!checkOutForm.locationId) selected="selected"#end>$!esc.html($!location.name)</option>
+              #end
+              </select>
+            #else
+              <select class="form-control mb-2" id="locationId" name="locationId">
+              #foreach($location in $locationList)
+                <option value="$location.id"#if($location.id == $!checkOutForm.locationId) selected="selected"#end>$!esc.html($!location.name)</option>
+              #end
+              </select>
+              <select class="d-none" name="locationId">
+              #foreach($location in $locationList)
+                <option value="$location.id"#if($location.id == $!checkOutForm.locationId) selected="selected"#end>$!esc.html($!location.nameJA)</option>
+              #end
+              </select>
+            #end
+          </div>
+        </div>
+  	    <div class="form-row">
+          <div class="form-group col-md-4">
+            <label for="itemId">$text.get("item.name")</label>
+            #if($lang.locale == "ja" || $lang.locale == "ja_JP")
+              <select class="form-control" id="itemId" name="itemId">
+              #foreach($item in $itemMaster)
+                <option value="$item.id"#if($item.id == $!itemMasterForm.id) selected="selected"#end>$!esc.html($!item.nameJA)</option>
+              #end
+              </select>
+              <select class="d-none" name="itemId">
+              #foreach($item in $itemMaster)
+                <option value="$item.id"#if($item.id == $!itemMasterForm.id) selected="selected"#end>$!esc.html($!item.name)</option>
+              #end
+              </select>
+            #else
+              <select class="form-control" id="itemId" name="itemId">
+              #foreach($item in $itemMaster)
+                <option value="$item.id"#if($item.id == $!itemMasterForm.id) selected="selected"#end>$!esc.html($!item.name)</option>
+              #end
+              </select>
+              <select class="d-none" name="itemId">
+              #foreach($item in $itemMaster)
+                <option value="$item.id"#if($item.id == $!itemMasterForm.id) selected="selected"#end>$!esc.html($!item.nameJA)</option>
+              #end
+              </select>
+            #end
+          </div>
+          <div class="form-group col-md-4">
+            <label for="supplierId">$text.get("checkout.supplier")</label>
+            #if($lang.locale == "ja" || $lang.locale == "ja_JP")
+              <select class="form-control" id="supplierId" name="supplierId">
+              #foreach($supplier in $supplierList)
+                <option value="$supplier.id"#if($supplier.id == $!checkOutForm.supplierId) selected="selected"#end>$!esc.html($!supplier.nameJA)</option>
+              #end
+              </select>
+              <select class="d-none" name="supplierId">
+              #foreach($supplier in $supplierList)
+                <option value="$supplier.id"#if($supplier.id == $!checkOutForm.supplierId) selected="selected"#end>$!esc.html($!supplier.name)</option>
+              #end
+              </select>
+            #else
+              <select class="form-control" id="supplierId" name="supplierId">
+              #foreach($supplier in $supplierList)
+                <option value="$supplier.id"#if($supplier.id == $!checkOutForm.supplierId) selected="selected"#end>$!esc.html($!supplier.name)</option>
+              #end
+              </select>
+              <select class="d-none" name="supplierId">
+              #foreach($supplier in $supplierList)
+                <option value="$supplier.id"#if($supplier.id == $!checkOutForm.supplierId) selected="selected"#end>$!esc.html($!supplier.nameJA)</option>
+              #end
+              </select>
+            #end
+          </div>
+          <div class="form-group col-md-4">
+            <label for="quantity">$text.get("checkout.quantity")</label>
+            <input class="form-control" type="number" id="quantity" name="quantity" min="0" #escapeInputValue( $!checkOutForm.quantity ) />
+          </div>
+        </div>
+        <hr>
+        <div class="form-group mb-4">
+          <label class="mt-2" for="comment">$text.get("checkout.comment")</label>
+          <textarea class="form-control" id="comment" name="comment">$!esc.html($!checkOutForm.comment)</textarea>
+        </div>
+        <div class="form-row justify-content-end">
+          <div class="form-group col-md-3">
+            <input class="btn btn-outline-primary btn-block btn-lg" type="submit" name="save" value="$text.get("save")" />
+          </div>
+          <div class="form-group col-md-3">
+            <input class="btn btn-outline-danger btn-block btn-lg" type="submit" name="$form.cancelName" value="$text.get("cancel")" />
+          </div>
+        </div>
+      </form>
+    </div>
+</div>

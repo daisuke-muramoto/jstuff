@@ -1,0 +1,74 @@
+ 
+<nav class="navbar navbar-expand-lg navbar-light bg-dark">
+
+  <a class="navbar-brand text-light bg-dark"  href="$link.setAction("/admin/inventory")">JStuff</a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+	  <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+	  <ul class="navbar-nav mr-auto">
+        <li class="nav-item dropdown">
+		  <a class="nav-link dropdown-toggle text-light bg-dark" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">$text.get("menu.inventory")</a>
+            <div class="dropdown-menu text-light bg-dark" aria-labelledby="navbarDropdown">
+			  <a class="dropdown-item text-light bg-dark" href="$link.setAction("/admin/inventory")">$text.get("admin.inventory")</a>
+			  <a class="dropdown-item text-light bg-dark" href="$link.setAction("/admin/checkInList")">$text.get("admin.checkin")</a>
+			  <a class="dropdown-item text-light bg-dark" href="$link.setAction("/admin/checkOutList")">$text.get("admin.checkout")</a>
+			  <a class="dropdown-item text-light bg-dark" href="$link.setAction("/admin/itemMaster")">$text.get("admin.items")</a>
+			  <a class="dropdown-item text-light bg-dark" href="$link.setAction("/admin/categoryList")">$text.get("admin.categories")</a>
+			  <a class="dropdown-item text-light bg-dark" href="$link.setAction("/admin/supplierList")">$text.get("admin.suppliers")</a>
+			  <a class="dropdown-item text-light bg-dark" href="$link.setAction("/admin/clientList")">$text.get("admin.clients")</a>
+			</div>
+		</li>
+		#if($isAdmin || $isManager)
+		<li class="nav-item dropdown">
+		  <a class="nav-link dropdown-toggle text-light bg-dark" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">$text.get("menu.manager")</a>
+		    <div class="dropdown-menu text-light bg-dark" aria-labelledby="navbarDropdown">
+			  <a class="dropdown-item text-light bg-dark" href="$link.setAction("/admin/userList")">$text.get("user.users")</a>
+			  <a class="dropdown-item text-light bg-dark" href="$link.setAction("/admin/locationList")">$text.get("admin.locations")</a>
+			</div>
+		</li>
+		#end
+		#if($isAdmin)
+		<li class="nav-item dropdown">
+		  <a class="nav-link dropdown-toggle text-light bg-dark" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">$text.get("menu.admin")</a>
+		    <div class="dropdown-menu text-light bg-dark" aria-labelledby="navbarDropdown">
+			  <a class="dropdown-item text-light bg-dark" href="$link.setAction("/admin/roleList")">$text.get("user.roles")</a>
+			  <a class="dropdown-item text-light bg-dark" href="$link.setAction("/admin/companyList")">$text.get("admin.companies")</a>
+			  <a class="dropdown-item text-light bg-dark" href="$link.setAction("/admin/logList")">$text.get("admin.logs")</a>
+			</div>
+		</li>
+		#end
+		<li class="nav-item">
+		  <a class="nav-link text-light bg-dark text-nowrap" href="$link.setAction("/switchLanguage")?switchLanguage=true">
+		  #if($key && $key != "")
+			$text.get("$key")
+		  #else
+			$text.get("switchLanguage")
+		  #end
+		  </a>
+		</li>
+		<li class="nav-item">
+		  <a class="nav-link text-light bg-dark text-nowrap" href="$link.setAction("/logout")">$text.get("logout")</a>
+		</li>
+	  </ul>
+	  <span class="navbar-text text-light bg-dark">
+  		$text.get("user.company")&nbsp;: &nbsp;
+  		${request.userPrincipal.name}##
+		#if($hasUserCompanyList)
+		&nbsp;&#64;
+  		  <form id="selectUserCompany" method="post" action="$link.setAction("/admin/selectUserCompany")">
+   		    <select name="companyId" onchange="this.form.submit();">
+      		  #foreach($company in $userCompanyList)
+        	    <option value="$!company.id"#if($!loginUser.companyId == $!company.id) selected="selected"#end>$!esc.html($!company.name)</option>
+              #end
+    	    </select>
+  		  </form>
+		#else
+		  &#64;$!esc.html($!loginUser.companyName)
+		#end
+	  </span>
+	</div>
+
+</nav>

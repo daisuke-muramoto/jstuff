@@ -1,0 +1,51 @@
+
+#set($actionUrl = $link.setAction("/admin/editCategory"))
+
+<h5 class="center">$text.get("admin.categories")</h5>
+
+<div class="table-responsive">
+<table class="listTable table-bordered mt-auto mb-0 mx-auto" style="border-bottom-style: hidden;">
+  <tr>
+    <th class="left" colspan="3"><a href="$actionUrl?read=true">$text.get("addNew")</a></th>
+  </tr>
+</table>
+<table class="sortable listTable table-bordered mt-auto mb-2 mx-auto">
+  <tr>
+    <th class="border-bottom">$text.get("category.name")</th>
+    <th class="border-bottom">$text.get("category.description")</th>
+    <th class="border-bottom sorttable_nosort">$text.get("action")</th>
+  </tr>
+  #foreach($category in $categoryList)
+    #if($velocityCount % 2 == 1)
+      #set($tdc = " class=${esc.q}list${esc.q}")
+      #set($tdc_text = " class=${esc.q}list${esc.q} style=${esc.q}white-space: pre !important;${esc.q}")
+      #set($tdca = " class=${esc.q}list actions${esc.q}")
+    #else
+      #set($tdc = "")
+      #set($tdc_text = " style=${esc.q}white-space: pre !important;${esc.q}")
+      #set($tdca = " class=${esc.q}actions${esc.q}")
+    #end
+    #set($name = "$!esc.html($!category.name)")
+    #set($nameJA = "$!esc.html($!category.nameJA)")
+    <tr>
+      #if($lang.locale == "ja" || $lang.locale == "ja_JP")
+        <td$tdc>$nameJA</td>
+        <td$tdc_text>$!esc.html($!category.descriptionJA)</td>
+      #else
+        <td$tdc>$name</td>
+        <td$tdc_text>$!esc.html($!category.description)</td>
+      #end
+        <td$tdca>
+          <a href="$actionUrl?read=true&amp;id=$category.id">$text.get("update")</a>
+          #if($category.canDelete)
+            | <a href="$actionUrl?delete=true&amp;id=$category.id"
+            #if($lang.locale == "ja" || $lang.locale == "ja_JP") onclick="return confirm('$text.get("confirm.delete", [ $nameJA ])')"
+            #else onclick="return confirm('$text.get("confirm.delete", [ $name ])')"#end>
+              $text.get("delete")
+            </a>
+          #end
+        </td>
+    </tr>
+  #end
+</table>
+</div>

@@ -1,0 +1,70 @@
+
+<div class="card w-75 mx-auto mb-4">
+  <div class="card-header">$text.get("edit.item")</div>
+    <div class="card-body">
+      <form method="post" name="itemMasterForm" action="$link.setAction("/admin/saveItemMaster")">
+        <input type="hidden" name="id" value="$!itemMasterForm.id" />
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="categoryId">$text.get("item.category")</label>
+            #if($lang.locale == "ja" || $lang.locale == "ja_JP")
+              <select class="form-control" id="categoryId" name="categoryId">
+              #foreach($category in $categoryList)
+                <option value="$category.id"#if($category.id == $!itemMasterForm.categoryId) selected="selected"#end>$!esc.html($!category.nameJA)</option>
+              #end
+              </select>
+              <select class="d-none" name="categoryId">
+              #foreach($category in $categoryList)
+                <option value="$category.id"#if($category.id == $!itemMasterForm.categoryId) selected="selected"#end>$!esc.html($!category.name)</option>
+              #end
+              </select>
+            #else
+              <select class="form-control" id="categoryId" name="categoryId">
+              #foreach($category in $categoryList)
+                <option value="$category.id"#if($category.id == $!itemMasterForm.categoryId) selected="selected"#end>$!esc.html($!category.name)</option>
+              #end
+              </select>
+              <select class="d-none" name="categoryId">
+              #foreach($category in $categoryList)
+                <option value="$category.id"#if($category.id == $!itemMasterForm.categoryId) selected="selected"#end>$!esc.html($!category.nameJA)</option>
+              #end
+              </select>
+            #end
+          </div>     
+          <div class="form-group col-md-6">
+            <label for="code">$text.get("item.code")</label>
+            <input class="form-control" type="text" id="code" name="code" #escapeInputValue( $!itemMasterForm.code ) />
+          </div>     
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="name">$text.get("item.nameEn")</label>
+            <input class="form-control" type="text" id="name" name="name" #escapeInputValue( $!itemMasterForm.name ) />
+          </div>
+          <div class="form-group col-md-6">
+            <label for="nameJA">$text.get("item.nameJa")</label>
+            <input class="form-control" type="text" id="nameJA" name="nameJA" #escapeInputValue( $!itemMasterForm.nameJA ) />
+          </div>
+        </div>
+        <div class="form-row mb-2">
+          <div class="form-group col-md-6">
+            <label for="description">$text.get("item.descriptionEn")</label>
+            <textarea class="form-control" id="description" name="description">$!esc.html($!itemMasterForm.description)</textarea>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="descriptionJA">$text.get("item.descriptionJa")</label>
+            <textarea class="form-control" id="descriptionJA" name="descriptionJA">$!esc.html($!itemMasterForm.descriptionJA)</textarea>
+          </div>
+        </div>
+        <br/>
+        <div class="form-row justify-content-end">
+          <div class="form-group col-md-3">
+            <input class="btn btn-outline-primary btn-block btn-lg" type="submit" name="save" value="$text.get("save")" />
+          </div>
+          <div class="form-group col-md-3">
+            <input class="btn btn-outline-danger btn-block btn-lg" type="submit" name="$form.cancelName" value="$text.get("cancel")" />
+          </div>
+        </div>
+      </form>
+    </div>
+</div>

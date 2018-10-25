@@ -1,0 +1,124 @@
+#*
+ * Copyright 2003-2004 The Apache Software Foundation.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * $Id: VM_global_library.vm,v 1.4 2004/02/20 13:13:42 marino Exp $
+ *#
+
+#macro( redirectPage $url )
+#if($url && $url != "")
+$response.sendRedirect("$link.setAction($url)")
+#else
+#redirectMainPage()
+#end
+#end
+
+#macro( redirectMainPage )
+#redirectPage( "/admin/login" )
+#end
+
+#macro( switchLanguage $key )
+<a href="$link.setAction("/switchLanguage")?switchLanguage=true">
+#if($key && $key != "")
+$text.get("$key")
+#else
+$text.get("switchLanguage")
+#end
+</a>
+#end
+
+#macro( actionMessages )
+#if($errors.exist())
+<ul id="errors" class="messages">
+#foreach($err in $errors.all)
+	<li>$!err</li>
+#end
+</ul>
+#end
+#if($messages.exist())
+<ul class="messages">
+#foreach($mes in $messages.all)
+	<li>$!mes</li>
+#end
+</ul>
+#end
+#end
+
+#macro( cancelButton )
+<input class="ssubmit" type="submit" name="$form.cancelName" value="$text.get("cancel")" />
+#end
+
+#macro( escapeInputValue $v )
+value="$!esc.html($!v)"
+#end
+
+#macro( yearOptionTagSpace $from $to $selected )
+#spaceOptionTag()
+#optionTag( $from $to $selected )
+#end
+
+#macro( yearOptionTag $from $to $selected )
+#optionTag( $from $to $selected )
+#end
+
+#macro( monthOptionTagSpace $selected )
+#spaceOptionTag()
+#monthOptionTag( $selected )
+#end
+
+#macro( monthOptionTag $selected )
+#optionTag( 1 12 $selected )
+#end
+
+#macro( dayOptionTagSpace $selected )
+#spaceOptionTag()
+#dayOptionTag( $selected )
+#end
+
+#macro( dayOptionTag $selected )
+#optionTag( 1 31 $selected )
+#end
+
+#macro( spaceOptionTag )
+<option value="">--</option>
+#end
+
+#macro( optionTag $from $to $selected )
+#foreach($i in [$from..$to])
+#formattedOptionTag( $i $selected )
+#end
+#end
+
+#macro( formattedOptionTag $i $selected )
+#set($num = $!number.format("00", $i))
+<option value="$num"#if($i == $selected) selected="selected"#end>$num</option>
+#end
+
+#macro( calSetup $i )
+<script type="text/javascript">
+<!--
+	Calendar.setup({
+		inputField	: "calDate$i",	// id of the input field
+		button		: "trigger$i"	// trigger for the calendar (button ID)
+	});
+// -->
+</script>
+#end
+
+#macro( formattedDatetime $d )
+#if(!$d)
+	#set($d = $date.date)
+#end
+$date.format("yyyy-MM-dd HH:mm:ss z", $d)
+#end

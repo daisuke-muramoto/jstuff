@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.3//EN" "http://jakarta.apache.org/struts/dtds/struts-config_1_3.dtd">
+
+<struts-config>
+	<!-- ========== form beans ========== -->
+	<form-beans>
+		<form-bean name="checkInForm" type="com.solanasystems.jstuff.form.CheckInForm" />
+		<form-bean name="checkOutForm" type="com.solanasystems.jstuff.form.CheckOutForm" />
+		<form-bean name="itemMasterForm" type="com.solanasystems.jstuff.form.ItemMasterForm" />
+		<form-bean name="categoryForm" type="com.solanasystems.jstuff.form.CategoryForm" />
+		<form-bean name="supplierForm" type="com.solanasystems.jstuff.form.SupplierForm" />
+		<form-bean name="clientForm" type="com.solanasystems.jstuff.form.ClientForm" />
+		<form-bean name="locationForm" type="com.solanasystems.jstuff.form.LocationForm" />
+		<form-bean name="companyForm" type="com.solanasystems.jstuff.form.CompanyForm" />
+		<form-bean name="userForm" type="com.solanasystems.jstuff.form.UserForm" />
+	</form-beans>
+
+	<!-- ========== Global Forwards ========== -->
+	<global-forwards>
+		<forward name="roleError" path="/admin/login.do" redirect="true" />
+	</global-forwards>
+
+	<!-- ========== Action Mappings ========== -->
+	<action-mappings>
+		<!-- ========== version ========== -->
+		<action path="/version" type="com.solanasystems.jstuff.action.DisplayVersionAction">
+			<forward name="success" path="/version/version.vm" />
+		</action>
+
+		<!-- ========== Switch Language ========== -->
+		<action path="/switchLanguage" type="com.solanasystems.utils.action.SwitchLanguageAction">
+			<forward name="success" path="/" />
+		</action>
+
+		<!-- ========== Logout ========== -->
+		<action path="/logout" type="com.solanasystems.utils.action.LogoutAction">
+			<forward name="success" path="/admin/login.do" redirect="true" />
+		</action>
+
+		<!-- ========== Login ========== -->
+		<action path="/admin/login" type="com.solanasystems.jstuff.action.LoginAction">
+			<forward name="success" path="/WEB-INF/layouts/login.vm" />
+			<forward name="list" path="/admin/inventory.do" redirect="true" />
+		</action>
+
+		<action path="/admin/error" type="com.solanasystems.jstuff.action.LoginErrorAction">
+			<forward name="success" path="/WEB-INF/layouts/login.vm" />
+			<forward name="list" path="/admin/inventory.do" redirect="true" />
+		</action>
+
+		<action path="/admin/selectUserCompany" type="com.solanasystems.jstuff.action.SelectUserCompanyAction">
+			<forward name="success" path="/admin/login.do" redirect="true" />
+		</action>
+
+		<!-- ========== users and roles ========== -->
+		<action path="/admin/userList" type="com.solanasystems.jstuff.action.user.UserListAction"
+			scope="request" validate="false">
+			<forward name="success" path=".user.userList" />
+		</action>
+
+		<action path="/admin/editUser" type="com.solanasystems.jstuff.action.user.UserCRUDAction"
+			name="userForm" scope="request" validate="false">
+			<forward name="edit" path=".user.editUser" />
+			<forward name="list" path="/admin/userList.do" redirect="true" />
+		</action>
+
+		<action path="/admin/saveUser" type="com.solanasystems.jstuff.action.user.UserCRUDAction"
+			name="userForm" scope="request" validate="true" input=".user.editUser">
+			<set-property property="cancellable" value="true" />
+			<forward name="edit" path=".user.editUser" />
+			<forward name="list" path="/admin/userList.do" redirect="true" />
+		</action>
+
+		<action path="/admin/roleList" type="com.solanasystems.jstuff.action.user.RoleListAction"
+			scope="request" validate="false">
+			<forward name="success" path=".user.roleList" />
+		</action>
+
+		<!-- ========== admin ========== -->
+		<action path="/admin/inventory" type="com.solanasystems.jstuff.action.admin.InventoryAction"
+			scope="request" validate="false">
+			<forward name="success" path=".admin.inventory" />
+		</action>
+		
+		<action path="/admin/logList" type="com.solanasystems.jstuff.action.admin.LogListAction"
+			scope="request" validate="false">
+			<forward name="success" path=".admin.logList" />
+		</action>
+
+		<action path="/admin/checkInList" type="com.solanasystems.jstuff.action.admin.CheckInListAction"
+			scope="request" validate="false">
+			<forward name="success" path=".admin.checkInList" />
+		</action>
+
+		<action path="/admin/editCheckIn" type="com.solanasystems.jstuff.action.admin.CheckInCRUDAction"
+			name="checkInForm" scope="request" validate="false">
+			<forward name="edit" path=".admin.editCheckIn" />
+			<forward name="list" path="/admin/checkInList.do" redirect="true" />
+		</action>
+
+		<action path="/admin/saveCheckIn" type="com.solanasystems.jstuff.action.admin.CheckInCRUDAction"
+			name="checkInForm" scope="request" validate="true" input=".admin.editCheckIn">
+			<set-property property="cancellable" value="true" />
+			<forward name="edit" path=".admin.editCheckIn" />
+			<forward name="list" path="/admin/checkInList.do" redirect="true" />
+		</action>
+
+		<action path="/admin/checkOutList" type="com.solanasystems.jstuff.action.admin.CheckOutListAction"
+			scope="request" validate="false">
+			<forward name="success" path=".admin.checkOutList" />
+		</action>
+
+		<action path="/admin/editCheckOut" type="com.solanasystems.jstuff.action.admin.CheckOutCRUDAction"
+			name="checkOutForm" scope="request" validate="false">
+			<forward name="edit" path=".admin.editCheckOut" />
+			<forward name="list" path="/admin/checkOutList.do" redirect="true" />
+		</action>
+
+		<action path="/admin/saveCheckOut" type="com.solanasystems.jstuff.action.admin.CheckOutCRUDAction"
+			name="checkOutForm" scope="request" validate="true" input=".admin.editCheckOut">
+			<set-property property="cancellable" value="true" />
+			<forward name="edit" path=".admin.editCheckOut" />
+			<forward name="list" path="/admin/checkOutList.do" redirect="true" />
+		</action>
+
+		<action path="/admin/itemMaster" type="com.solanasystems.jstuff.action.admin.ItemMasterAction"
+			scope="request" validate="false">
+			<forward name="success" path=".admin.itemMaster" />
+		</action>
+
+		<action path="/admin/editItemMaster" type="com.solanasystems.jstuff.action.admin.ItemMasterCRUDAction"
+			name="itemMasterForm" scope="request" validate="false">
+			<forward name="edit" path=".admin.editItemMaster" />
+			<forward name="list" path="/admin/itemMaster.do" redirect="true" />
+		</action>
+
+		<action path="/admin/saveItemMaster" type="com.solanasystems.jstuff.action.admin.ItemMasterCRUDAction"
+			name="itemMasterForm" scope="request" validate="true" input=".admin.editItemMaster">
+			<set-property property="cancellable" value="true" />
+			<forward name="edit" path=".admin.editItemMaster" />
+			<forward name="list" path="/admin/itemMaster.do" redirect="true" />
+		</action>
+
+		<action path="/admin/categoryList" type="com.solanasystems.jstuff.action.admin.CategoryListAction"
+			scope="request" validate="false">
+			<forward name="success" path=".admin.categoryList" />
+		</action>
+
+		<action path="/admin/editCategory" type="com.solanasystems.jstuff.action.admin.CategoryCRUDAction"
+			name="categoryForm" scope="request" validate="false">
+			<forward name="edit" path=".admin.editCategory" />
+			<forward name="list" path="/admin/categoryList.do" redirect="true" />
+		</action>
+
+		<action path="/admin/saveCategory" type="com.solanasystems.jstuff.action.admin.CategoryCRUDAction"
+			name="categoryForm" scope="request" validate="true" input=".admin.editCategory">
+			<set-property property="cancellable" value="true" />
+			<forward name="edit" path=".admin.editCategory" />
+			<forward name="list" path="/admin/categoryList.do" redirect="true" />
+		</action>
+
+		<action path="/admin/supplierList" type="com.solanasystems.jstuff.action.admin.SupplierListAction"
+			scope="request" validate="false">
+			<forward name="success" path=".admin.supplierList" />
+		</action>
+
+		<action path="/admin/editSupplier" type="com.solanasystems.jstuff.action.admin.SupplierCRUDAction"
+			name="supplierForm" scope="request" validate="false">
+			<forward name="edit" path=".admin.editSupplier" />
+			<forward name="list" path="/admin/supplierList.do" redirect="true" />
+		</action>
+
+		<action path="/admin/saveSupplier" type="com.solanasystems.jstuff.action.admin.SupplierCRUDAction"
+			name="supplierForm" scope="request" validate="true" input=".admin.editSupplier">
+			<set-property property="cancellable" value="true" />
+			<forward name="edit" path=".admin.editSupplier" />
+			<forward name="list" path="/admin/supplierList.do" redirect="true" />
+		</action>
+
+		<action path="/admin/clientList" type="com.solanasystems.jstuff.action.admin.ClientListAction"
+			scope="request" validate="false">
+			<forward name="success" path=".admin.clientList" />
+		</action>
+
+		<action path="/admin/editClient" type="com.solanasystems.jstuff.action.admin.ClientCRUDAction"
+			name="clientForm" scope="request" validate="false">
+			<forward name="edit" path=".admin.editClient" />
+			<forward name="list" path="/admin/clientList.do" redirect="true" />
+		</action>
+
+		<action path="/admin/saveClient" type="com.solanasystems.jstuff.action.admin.ClientCRUDAction"
+			name="clientForm" scope="request" validate="true" input=".admin.editClient">
+			<set-property property="cancellable" value="true" />
+			<forward name="edit" path=".admin.editClient" />
+			<forward name="list" path="/admin/clientList.do" redirect="true" />
+		</action>
+
+		<action path="/admin/locationList" type="com.solanasystems.jstuff.action.admin.LocationListAction"
+			scope="request" validate="false">
+			<forward name="success" path=".admin.locationList" />
+		</action>
+
+		<action path="/admin/editLocation" type="com.solanasystems.jstuff.action.admin.LocationCRUDAction"
+			name="locationForm" scope="request" validate="false">
+			<forward name="edit" path=".admin.editLocation" />
+			<forward name="list" path="/admin/locationList.do" redirect="true" />
+		</action>
+
+		<action path="/admin/saveLocation" type="com.solanasystems.jstuff.action.admin.LocationCRUDAction"
+			name="locationForm" scope="request" validate="true" input=".admin.editLocation">
+			<set-property property="cancellable" value="true" />
+			<forward name="edit" path=".admin.editLocation" />
+			<forward name="list" path="/admin/locationList.do" redirect="true" />
+		</action>
+		
+		<action path="/admin/companyList" type="com.solanasystems.jstuff.action.admin.CompanyListAction"
+			scope="request" validate="false">
+			<forward name="success" path=".admin.companyList" />
+		</action>
+
+		<action path="/admin/editCompany" type="com.solanasystems.jstuff.action.admin.CompanyCRUDAction"
+			name="companyForm" scope="request" validate="false">
+			<forward name="edit" path=".admin.editCompany" />
+			<forward name="list" path="/admin/companyList.do" redirect="true" />
+		</action>
+
+		<action path="/admin/saveCompany" type="com.solanasystems.jstuff.action.admin.CompanyCRUDAction"
+			name="companyForm" scope="request" validate="true" input=".admin.editCompany">
+			<set-property property="cancellable" value="true" />
+			<forward name="edit" path=".admin.editCompany" />
+			<forward name="list" path="/admin/companyList.do" redirect="true" />
+		</action>
+	</action-mappings>
+
+	<!-- ========== Controller Definition ========== -->
+	<controller>
+		<set-property property="processorClass" value="org.apache.struts.action.RequestProcessor" />
+	</controller>
+
+	<!-- ========== Application Properties ========== -->
+	<message-resources parameter="resources.application">
+		<set-property key="mode" value="JSTL" />
+	</message-resources>
+
+	<!-- ========== Plugins Configuration ========== -->
+	<plug-in className="org.apache.struts.tiles.TilesPlugin">
+		<set-property property="definitions-config" value="/WEB-INF/tiles-def.xml" />
+		<set-property property="definitions-parser-validate" value="true" />
+		<set-property property="moduleAware" value="true" />
+	</plug-in>
+
+	<plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+		<set-property property="pathnames" value="/WEB-INF/validator-rules.xml,/WEB-INF/validation.xml" />
+	</plug-in>
+
+</struts-config>
+		

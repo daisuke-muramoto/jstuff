@@ -1,0 +1,69 @@
+
+#if($companyList && $companyList.size() > 1)
+  #set($isMultipleCompanyies = true)
+#end
+
+<div class="card w-75 mx-auto mb-4">
+  <div class="card-header">$text.get("edit.user")</div>
+    <div class="card-body">
+      <form method="post" name="userForm" action="$link.setAction("/admin/saveUser")">
+        <input type="hidden" name="id" value="$!userForm.id" />
+        #if(!$isMultipleCompanyies)
+          <input type="hidden" name="companyIds" value="$loginUser.companyId" />
+        #end
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label for="name">$text.get("user.name")</label>
+            <input class="form-control" type="text" name="name" value="$!userForm.name" />
+          </div>
+          <div class="form-group col-md-4">
+            <label for="pass">$text.get("user.pass")</label>
+            <input class="form-control" type="password" name="pass" value="$!userForm.pass" />
+          </div>
+          <div class="form-group col-md-4">
+            <label for="pass2">$text.get("user.pass2")</label>
+            <input class="form-control" type="password" name="pass2" value="$!userForm.pass2" />
+          </div>
+        </div>
+        <hr>
+        <div class="form-group mb-4">
+          <div class="col-md-2 text-nowrap">$text.get("user.role")</div>
+          <br/>
+          <div class="col-md-10">
+            #foreach($role in $roleList)
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" id="roleId$velocityCount" name="roleId" value="$!role.id"#if($!userForm.roleId == $!role.id || ($!userForm.id == 0 && $velocityCount == 1)) checked="checked"#end />
+              <label class="form-check-label" for="roleId$velocityCount">$!role.name</label>
+            #if($velocityHasNext)</div><div class="form-check form-check-inline">#end
+            </div>
+            #end
+          </div>
+        </div>
+        <hr>
+        #if($isMultipleCompanyies)
+        <div class="form-group mb-4">
+          <div class="col-md-2 text-nowrap">$text.get("user.company")</div>
+          <br/>
+          <div class="col-md-10">
+            #foreach($company in $companyList)
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="companyId$velocityCount" name="companyIds" value="$!company.id"#if($!userForm.id == 0 || $!userForm.isContainsCompanyId($!company.id)) checked="checked"#end />
+              <label class="form-check-label" for="companyId$velocityCount">$!esc.html($!company.name)</label>
+            </div>
+            #end
+          </div>
+        </div>
+        <hr>
+        #end
+        <br/>
+        <div class="form-row justify-content-end">
+          <div class="form-group col-md-3">
+            <input class="btn btn-outline-primary btn-block btn-lg" type="submit" name="save" value="$text.get("save")" />
+          </div>
+          <div class="form-group col-md-3">
+            <input class="btn btn-outline-danger btn-block btn-lg" type="submit" name="$form.cancelName" value="$text.get("cancel")" />
+          </div>
+        </div>
+      </form>
+    </div>
+</div>

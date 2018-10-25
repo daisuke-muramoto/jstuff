@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 1.3//EN" "http://jakarta.apache.org/struts/dtds/tiles-config_1_3.dtd">
+
+<tiles-definitions>
+
+	<!-- ========== base ========== -->
+	<definition name=".article.base" path="/WEB-INF/layouts/defaultLayout.vm">
+		<put name="title" value="${title}" />
+		<put name="globalHeader" value="/WEB-INF/layouts/headers/global.vm" />
+		<put name="localHeader" value="${localHeader}" />
+		<put name="selectedGlobalTab" value="${selectedGlobalTab}" />
+		<put name="content" value="${content}" />
+		<put name="footer" value="/WEB-INF/layouts/footer.vm" />
+	</definition>
+
+	<definition name=".admin.base" extends=".article.base">
+		<put name="localHeader" value="/WEB-INF/layouts/headers/adminLocal.vm" />
+		<put name="selectedGlobalTab" value="row1tab1" />
+		<put name="content" value="${content}" />
+	</definition>
+
+	<definition name=".user.base" extends=".article.base">
+		<put name="localHeader" value="/WEB-INF/layouts/headers/userLocal.vm" />
+		<put name="selectedGlobalTab" value="row1tab2" />
+		<put name="content" value="${content}" />
+	</definition>
+
+	<!-- ========== users and roles ========== -->
+	<definition name=".user.userList" extends=".user.base">
+		<put name="title" value="Users" />
+		<put name="content" value="/WEB-INF/user/pages/userList.vm" />
+	</definition>
+
+	<definition name=".user.editUser" extends=".user.base">
+		<put name="title" value="Edit User" />
+		<put name="content" value="/WEB-INF/user/pages/userCRU.vm" />
+	</definition>
+
+	<definition name=".user.roleList" extends=".user.base">
+		<put name="title" value="Roles" />
+		<put name="content" value="/WEB-INF/user/pages/roleList.vm" />
+	</definition>
+
+	<!-- ========== admin ========== -->
+	<definition name=".admin.inventory" extends=".admin.base">
+		<put name="title" value="Inventory" />
+		<put name="content" value="/WEB-INF/admin/pages/inventory.vm" />
+	</definition>
+	
+	<definition name=".admin.logList" extends=".admin.base">
+		<put name="title" value="Logs" />
+		<put name="content" value="/WEB-INF/admin/pages/logList.vm" />
+	</definition>
+
+	<definition name=".admin.checkInList" extends=".admin.base">
+		<put name="title" value="Check-in" />
+		<put name="content" value="/WEB-INF/admin/pages/checkInList.vm" />
+	</definition>
+
+	<definition name=".admin.editCheckIn" extends=".admin.base">
+		<put name="title" value="Edit Check-in" />
+		<put name="content" value="/WEB-INF/admin/pages/checkInCRU.vm" />
+	</definition>
+
+	<definition name=".admin.checkOutList" extends=".admin.base">
+		<put name="title" value="Check-out" />
+		<put name="content" value="/WEB-INF/admin/pages/checkOutList.vm" />
+	</definition>
+
+	<definition name=".admin.editCheckOut" extends=".admin.base">
+		<put name="title" value="Edit Check-out" />
+		<put name="content" value="/WEB-INF/admin/pages/checkOutCRU.vm" />
+	</definition>
+
+	<definition name=".admin.itemMaster" extends=".admin.base">
+		<put name="title" value="Item Master" />
+		<put name="content" value="/WEB-INF/admin/pages/itemMaster.vm" />
+	</definition>
+
+	<definition name=".admin.editItemMaster" extends=".admin.base">
+		<put name="title" value="Edit Item Master" />
+		<put name="content" value="/WEB-INF/admin/pages/itemMasterCRU.vm" />
+	</definition>
+
+	<definition name=".admin.categoryList" extends=".admin.base">
+		<put name="title" value="Categories" />
+		<put name="content" value="/WEB-INF/admin/pages/categoryList.vm" />
+	</definition>
+
+	<definition name=".admin.editCategory" extends=".admin.base">
+		<put name="title" value="Edit Category" />
+		<put name="content" value="/WEB-INF/admin/pages/categoryCRU.vm" />
+	</definition>
+
+	<definition name=".admin.supplierList" extends=".admin.base">
+		<put name="title" value="Suppliers" />
+		<put name="content" value="/WEB-INF/admin/pages/supplierList.vm" />
+	</definition>
+
+	<definition name=".admin.editSupplier" extends=".admin.base">
+		<put name="title" value="Edit Supplier" />
+		<put name="content" value="/WEB-INF/admin/pages/supplierCRU.vm" />
+	</definition>
+
+	<definition name=".admin.clientList" extends=".admin.base">
+		<put name="title" value="Clients" />
+		<put name="content" value="/WEB-INF/admin/pages/clientList.vm" />
+	</definition>
+
+	<definition name=".admin.editClient" extends=".admin.base">
+		<put name="title" value="Edit Client" />
+		<put name="content" value="/WEB-INF/admin/pages/clientCRU.vm" />
+	</definition>
+
+	<definition name=".admin.locationList" extends=".admin.base">
+		<put name="title" value="Locations" />
+		<put name="content" value="/WEB-INF/admin/pages/locationList.vm" />
+	</definition>
+
+	<definition name=".admin.editLocation" extends=".admin.base">
+		<put name="title" value="Edit Location" />
+		<put name="content" value="/WEB-INF/admin/pages/locationCRU.vm" />
+	</definition>
+	
+	<definition name=".admin.companyList" extends=".admin.base">
+		<put name="title" value="Companies" />
+		<put name="content" value="/WEB-INF/admin/pages/companyList.vm" />
+	</definition>
+
+	<definition name=".admin.editCompany" extends=".admin.base">
+		<put name="title" value="Edit Company" />
+		<put name="content" value="/WEB-INF/admin/pages/companyCRU.vm" />
+	</definition>
+</tiles-definitions>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8" />
+<title>version info</title>
+<link rel="stylesheet" href="$request.contextPath/css/version.css" type="text/css" />
+</head>
+<body>
+
+<table>
+  <tr>
+    <td>your database is</td>
+    <td id="$dbStatus"> $dbStatus</td>
+  </tr>
+  <tr>
+    <td>your webapp is</td>
+    <td> @webappName@</td>
+  </tr>
+  #if($isAuth)
+  <tr>
+    <td>Current JDK is</td>
+    <td> $version</td>
+  </tr>
+  #end
+  <tr>
+    <td>user.timezone is</td>
+    <td> $userTimezone <i>Examples : Asia/Tokyo, Japan, JST</i></td>
+  </tr>
+  #if($isAuth)
+  <tr>
+    <td>your build date is</td>
+    <td> @buildDateJST@ JST</td>
+  </tr>
+  <tr>
+    <td>your build date is</td>
+    <td> @buildDateGMT@ GMT</td>
+  </tr>
+  <tr>
+    <td>your build number is</td>
+    <td> @version@-@minor.build.num@</td>
+  </tr>
+  <tr>
+    <td>your build java version:</td>
+    <td> @build.java.version@</td>
+  </tr>
+  #end
+  <tr>
+    <td>your current browser locale</td>
+    <td> $request.locale</td>
+  </tr>
+  <tr>
+    <td>your session locale</td>
+    <td> $locale</td>
+  </tr>
+  <tr>
+    <td>user language</td>
+    <td> $userLanguage</td>
+  </tr>
+  <tr>
+    <td>user country</td>
+    <td> $userCountry</td>
+  </tr>
+  #if($isAuth)
+  <tr><td colspan="2"></td></tr>
+  <tr>
+    <td>main server flag is:</td>
+    <td> $isMain</td>
+  </tr>
+  <tr>
+    <td>test server flag is:</td>
+    <td> $isTestServer</td>
+  </tr>
+  <tr>
+    <td>local flag is:</td>
+    <td> $isLocal</td>
+  </tr>
+  <tr>
+    <td>send mail is:</td>
+    <td> $email</td>
+  </tr>
+  <tr><td colspan="2"><hr /></td></tr>
+  <tr>
+    <td>system opts</td>
+    <td> $!systemOpts</td>
+  </tr>
+  <tr><td colspan="2"><hr /></td></tr>
+  <tr>
+    <td>system env</td>
+    <td> $!systemEnv</td>
+  </tr>
+  <tr><td colspan="2">&nbsp;</td></tr>
+  #end
+</table>
+</body>
+</html>

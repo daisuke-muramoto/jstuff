@@ -1,0 +1,18 @@
+
+<h5 class="center">$text.get("user.roles")</h5>
+
+<table id="roleTable" class="table-bordered mt-auto mx-auto" summary="">
+  <tr>
+    <th class="left">$text.get("role.name")</th>
+  </tr>
+  #foreach($role in $roleList)
+    #if($velocityCount % 2 == 1)
+      #set($tdc = " class=${esc.q}list${esc.q}")
+    #else
+      #set($tdc = "")
+    #end
+    <tr>
+      <td$tdc>$!role.name</td>
+    </tr>
+  #end
+</table>

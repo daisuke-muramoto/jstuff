@@ -1,0 +1,65 @@
+
+#set($actionUrl = $link.setAction("/admin/editCheckIn"))
+
+<h5 class="center">$text.get("admin.checkin")</h5>
+
+<div class="table-responsive">
+<table class="listTable table-bordered mt-auto mb-0 mx-auto" style="border-bottom-style: hidden;">
+  <tr>
+    <th class="left" colspan="8"><a href="$actionUrl?read=true">$text.get("addNew")</a></th>
+  </tr>
+</table>
+<table class="sortable listTable table-bordered mt-auto mb-2 mx-auto">
+  <tr>
+    <th class="border-bottom">$text.get("checkin.date")</th>
+    <th class="border-bottom">$text.get("checkin.client")</th>
+    <th class="border-bottom">$text.get("checkin.location")</th>
+    <th class="border-bottom">$text.get("item.name")</th>
+    <th class="border-bottom">$text.get("checkin.supplier")</th>
+    <th class="border-bottom">$text.get("checkin.quantity")</th>
+    <th class="border-bottom">$text.get("checkin.comment")</th>
+    <th class="border-bottom sorttable_nosort">$text.get("action")</th>
+  </tr>
+  #foreach($checkin in $checkInList)
+    #if($velocityCount % 2 == 1)
+      #set($tdc = " class=${esc.q}list${esc.q}")
+      #set($tdc_center = " class=${esc.q}list text-center${esc.q}")
+      #set($tdc_text = " class=${esc.q}list${esc.q} style=${esc.q}white-space: pre !important;${esc.q}")
+      #set($tdca = " class=${esc.q}list actions${esc.q}")
+    #else
+      #set($tdc = "")
+      #set($tdc_center = " class=${esc.q}text-center${esc.q}")
+      #set($tdc_text = " style=${esc.q}white-space: pre !important;${esc.q}")
+      #set($tdca = " class=${esc.q}actions${esc.q}")
+    #end
+    #set($item = "$!esc.html($!checkin.itemName)")
+    #set($itemJA = "$!esc.html($!checkin.itemNameJA)")
+    <tr>
+      <td$tdc_center>$!esc.html($!checkin.date)</td>
+      #if($lang.locale == "ja" || $lang.locale == "ja_JP")
+        <td$tdc_center>$!esc.html($!checkin.clientNameJA)</td>
+        <td$tdc_center>$!esc.html($!checkin.locationNameJA)</td>
+        <td$tdc>$itemJA</td>
+        <td$tdc_center>$!esc.html($!checkin.supplierNameJA)</td>
+      #else
+        <td$tdc_center>$!esc.html($!checkin.clientName)</td>
+        <td$tdc_center>$!esc.html($!checkin.locationName)</td>
+        <td$tdc>$item</td>
+        <td$tdc_center>$!esc.html($!checkin.supplierName)</td>
+      #end
+      <td$tdc_center>$!esc.html($!checkin.quantity)</td>
+      <td$tdc_text>$!esc.html($!checkin.comment)</td>
+      <td$tdca>
+        <a href="$actionUrl?read=true&amp;id=$checkin.id">$text.get("update")</a>
+        #if($checkin.canDelete)
+          | <a href="$actionUrl?delete=true&amp;id=$checkin.id"
+            #if($lang.locale == "ja" || $lang.locale == "ja_JP") onclick="return confirm('$text.get("confirm.delete", [ $itemJA ])')"
+            #else onclick="return confirm('$text.get("confirm.delete", [ $item ])')"#end>
+            $text.get("delete")
+          </a>
+        #end
+      </td>
+    </tr>
+  #end
+</table>
+</div>

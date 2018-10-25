@@ -1,0 +1,59 @@
+
+#set($actionUrl = $link.setAction("/admin/editItemMaster"))
+
+<h5 class="center">$text.get("admin.items")</h5>
+
+<div class="table-responsive">
+<table class="listTable table-bordered mt-auto mb-0 mx-auto" style="border-bottom-style: hidden;">
+  <tr>
+    <th class="left" colspan="5"><a href="$actionUrl?read=true">$text.get("addNew")</a></th>
+  </tr>
+</table>
+<table class="sortable listTable table-bordered mt-auto mb-2 mx-auto">
+  <tr>
+    <th class="border-bottom">$text.get("item.category")</th>
+    <th class="border-bottom">$text.get("item.name")</th>
+    <th class="border-bottom">$text.get("item.code")</th>
+    <th class="border-bottom">$text.get("item.description")</th>
+    <th class="border-bottom sorttable_nosort">$text.get("action")</th>
+  </tr>
+  #foreach($item in $itemMaster)
+    #if($velocityCount % 2 == 1)
+      #set($tdc = " class=${esc.q}list${esc.q}")
+      #set($tdc_center = " class=${esc.q}list center${esc.q}")
+      #set($tdc_text = " class=${esc.q}list${esc.q} style=${esc.q}white-space: pre !important;${esc.q}")
+      #set($tdca = " class=${esc.q}list actions${esc.q}")
+    #else
+      #set($tdc = "")
+      #set($tdc_center = " class=${esc.q}center${esc.q}")
+      #set($tdc_text = " style=${esc.q}white-space: pre !important;${esc.q}")
+      #set($tdca = " class=${esc.q}actions${esc.q}")
+    #end
+    #set($name = "$!esc.html($!item.name)")
+    #set($nameJA = "$!esc.html($!item.nameJA)")
+    <tr>
+    #if($lang.locale == "ja" || $lang.locale == "ja_JP")
+      <td$tdc_center>$!esc.html($!item.categoryNameJA)</td>
+      <td$tdc>$nameJA</td>
+      <td$tdc_center>$!esc.html($!item.code)</td>
+      <td$tdc_text>$!esc.html($!item.descriptionJA)</td>
+    #else
+      <td$tdc_center>$!esc.html($!item.categoryName)</td>
+      <td$tdc>$name</td>
+      <td$tdc_center>$!esc.html($!item.code)</td>
+      <td$tdc_text>$!esc.html($!item.description)</td>
+    #end
+      <td$tdca>
+        <a href="$actionUrl?read=true&amp;id=$item.id">$text.get("update")</a>
+        #if($item.canDelete)
+          | <a href="$actionUrl?delete=true&amp;id=$item.id"
+            #if($lang.locale == "ja" || $lang.locale == "ja_JP") onclick="return confirm('$text.get("confirm.delete", [ $nameJA ])')"
+            #else onclick="return confirm('$text.get("confirm.delete", [ $name ])')"#end>
+            $text.get("delete")
+          </a>
+        #end
+      </td>
+    </tr>
+  #end
+</table>
+</div>

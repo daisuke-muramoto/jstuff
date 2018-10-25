@@ -1,0 +1,208 @@
+body {
+	margin: .5em auto 2em;
+	text-align: center;
+	font-family: verdana, arial, sans-serif;
+}
+
+.center {
+	text-align: center;
+}
+
+a,a:link,a:visited {
+	color: #069;
+	background-color: #fff;
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+ul.messages {
+	margin: 1em 1em 1.5em;
+	padding: .25em 1em;
+	text-align: left;
+	list-style-type: none;
+	background-color: #ffffe0;
+	border: 1px solid #e6ab55;
+	border-radius: 10px;
+	-khtml-border-radius: 10px;
+	-webkit-border-radius: 10px;
+}
+
+ul.messages li {
+	margin: .5em 0;
+	font-size: 13px;
+	line-height: 1.25em;
+}
+
+ul#errors {
+	background-color: #ffebe8;
+	border-color: #c00;
+}
+
+table {
+	width: 60%;
+	margin: auto;
+	text-align: center;
+	font-size: 12px;
+	background-color: #f1f5f5;
+	/* border: 0px solid #000; */
+	border: 1px solid #dee2e6;
+	border-radius: 4px;
+	-khtml-border-radius: 4px;
+	-webkit-border-radius: 4px;
+}
+
+table th {
+	min-width: 6em;
+	width: auto;
+}
+
+table th,table td {
+	font-size: 90%;
+	padding: 5px;
+}
+
+table td,th.left,td.left {
+	text-align: left;
+}
+
+table th,th.center,td.center {
+	text-align: center;
+}
+
+th.right,td.right {
+	text-align: right;
+}
+
+td.bold {
+	font-weight: bold;
+}
+
+table a,table a:link,table a:visited {
+	background-color: inherit;
+}
+
+table .sstext {
+	width: 4em;
+}
+
+table .stext {
+	width: 8em;
+}
+
+table .mtext {
+	width: 25em;
+}
+
+table .ltext {
+	width: 40em;
+}
+
+table .narrowest {
+	min-width: 2.5em;
+	width: 3%;
+}
+
+table .narrow {
+	min-width: 6em;
+	width: 8%;
+}
+
+table .default {
+	min-width: 10em;
+	width: 12%;
+}
+
+table .list {
+	background-color: #fff;
+}
+
+table .actions {
+	/* width: 16em; */
+	width: 10em;
+	text-align: center;
+}
+
+table .actions a {
+	line-height: 1.75em;
+}
+
+form .submit,form .ssubmit {
+	min-width: 6em;
+	width: auto;
+}
+
+form .ssubmit {
+	margin-left: 1.25em;
+}
+
+select {
+	max-width: 100%;
+}
+
+select option[selected] {
+	font-weight: bold;
+}
+
+input[type=radio] {
+	margin: 4px 3px;
+	vertical-align: middle;
+}
+
+td.middle {
+	padding: 3px;
+}
+
+.middle input,.middle span {
+	margin: 2px;
+	vertical-align: middle;
+}
+
+#loginTable {
+	width: 80%;
+	min-width: 256px;
+	max-width: 450px;
+	margin: .2em auto;
+	padding: .2em;
+	background-color: #eee;
+	border: 1px solid #888;
+}
+
+#loginTable th,#loginTable td {
+	font-size: 100%;
+}
+
+.login {
+	width: 16em;
+}
+
+#userCompany {
+	overflow: auto;
+	clear: both;
+}
+
+#userCompany div {
+	float: right;
+	margin-right: 15px;
+}
+
+#userCompany,#userCompany select {
+	font-size: 13px;
+	border: 0;
+}
+
+#selectUserCompany {
+	display: inline-block;
+}
+
+#roleTable {
+	max-width: 480px;
+}
+
+.listTable {
+	width: 80%;
+	min-width: 568px;
+	max-width: 1280px;
+}

@@ -1,0 +1,39 @@
+
+<h5 class="center">$text.get("admin.inventory")</h5>
+
+<div class="table-responsive">
+<table class="sortable listTable table-bordered mt-auto mx-auto m-2">
+  <tr>
+    <th class="border-bottom">$text.get("inventory.lastUpdated")</th>
+    <th class="border-bottom">$text.get("checkin.client")</th>
+    <th class="border-bottom">$text.get("inventory.location")</th>
+    <th class="border-bottom">$text.get("item.name")</th>
+    <th class="border-bottom">$text.get("item.category")</th>
+    <th class="border-bottom">$text.get("inventory.quantity")</th>
+  </tr>
+  #foreach($checkin in $checkInList)
+    #if($velocityCount % 2 == 1)
+      #set($tdc = " class=${esc.q}list${esc.q}")
+      #set($tdc_center = " class=${esc.q}list text-center")
+    #else
+      #set($tdc = "")
+      #set($tdc_center = " class=${esc.q}text-center")
+    #end
+    <tr>
+      <td$tdc_center${esc.q}>$!esc.html($!checkin.date)</td>
+      #if($lang.locale == "ja" || $lang.locale == "ja_JP")
+        <td$tdc_center${esc.q}>$!esc.html($!checkin.clientNameJA)</td>
+        <td$tdc_center${esc.q}>$!esc.html($!checkin.locationNameJA)</td>
+        <td$tdc>$!esc.html($!checkin.itemNameJA)</td>
+        <td$tdc_center${esc.q}>$!esc.html($!checkin.categoryNameJA)</td>
+      #else
+        <td$tdc_center${esc.q}>$!esc.html($!checkin.clientName)</td>
+        <td$tdc_center${esc.q}>$!esc.html($!checkin.locationName)</td>
+        <td$tdc>$!esc.html($!checkin.itemName)</td>
+        <td$tdc_center${esc.q}>$!esc.html($!checkin.categoryName)</td>
+      #end
+      <td$tdc_center#if($!checkin.quantity < 0) text-danger${esc.q}#else${esc.q}#end>$!esc.html($!checkin.quantity)</td>
+    </tr>
+  #end
+</table>
+</div>
